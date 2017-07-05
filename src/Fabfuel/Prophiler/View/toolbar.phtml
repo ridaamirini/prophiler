@@ -29,22 +29,22 @@ use Fabfuel\Prophiler\Toolbar\Formatter\BenchmarkFormatter;
                 <?php foreach ($aggregators as $aggregator): ?>
                     <li>
                         <?php if (count($aggregator)): ?>
-                            <a href="javascript:void(0);" onclick="return $('#prophiler-aggregator-<?= spl_object_hash($aggregator) ?>').slideToggle('fast');">
-                        <?php endif; ?>
+                        <a href="javascript:void(0);" onclick="return slideToggle('#prophiler-aggregator-<?= spl_object_hash($aggregator) ?>', 'fast');">
+                            <?php endif; ?>
 
-                        <span class="label severity-<?= $aggregator->getSeverity() ?>">
+                            <span class="label severity-<?= $aggregator->getSeverity() ?>">
                             <?= $aggregator->getIcon() ?> <?= $aggregator->getTitle() ?>
-                            <span class="badge"><?= count($aggregator) ?></span>
+                                <span class="badge"><?= count($aggregator) ?></span>
                         </span>
-                        <?php if (count($aggregator)): ?>
-                            </a>
-                        <?php endif; ?>
+                            <?php if (count($aggregator)): ?>
+                        </a>
+                    <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
 
                 <?php if (count(new \Fabfuel\Prophiler\Iterator\ComponentFilteredIterator($profiler, 'Logger')) >= 1): ?>
                     <li>
-                        <a href="javascript:void(0);" onclick="return $('#prophiler-logs').slideToggle('fast');">
+                        <a href="javascript:void(0);" onclick="return slideToggle('#prophiler-logs', 'fast');">
                             <span class="label <?= $alertCount ? 'color-0' : 'color-5' ?>">
                                 <i class="fa fa-align-left"></i> Logs
                                 <?php if ($alertCount): ?>
@@ -57,7 +57,7 @@ use Fabfuel\Prophiler\Toolbar\Formatter\BenchmarkFormatter;
 
                 <?php foreach ($dataCollectors as $dataCollector): ?>
                     <li>
-                        <a href="javascript:void(0);" onclick="return $('#prophiler-datacollector-<?= md5($dataCollector->getTitle()) ?>').slideToggle('fast');"><span class="label color-5"><?= $dataCollector->getIcon() ?> <?= $dataCollector->getTitle() ?></span></a>
+                        <a href="javascript:void(0);" onclick="return slideToggle('#prophiler-datacollector-<?= md5($dataCollector->getTitle()) ?>', 'fast');"><span class="label color-5"><?= $dataCollector->getIcon() ?> <?= $dataCollector->getTitle() ?></span></a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -87,13 +87,13 @@ use Fabfuel\Prophiler\Toolbar\Formatter\BenchmarkFormatter;
     }
 
     function slideToggle(selector, speed) {
-        var benchmarks = $('.benchmarks').is(':visible');
-        var datacollector = $('.datacollector').is(':visible');
-        var logs = $('.logs').is(':visible');
+        var benchmarks = $('.benchmarks').not(selector);
+        var datacollector = $('.datacollector').not(selector);
+        var logs = $('.logs').not(selector);
 
-        benchmarks.hide();
-        datacollector.hide();
-        logs.hide();
+        benchmarks.slideUp('slow');
+        datacollector.slideUp('slow');
+        logs.slideUp('slow');
 
         return $(selector).slideToggle(speed);
     }
