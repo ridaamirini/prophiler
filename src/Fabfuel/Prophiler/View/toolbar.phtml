@@ -23,7 +23,7 @@ use Fabfuel\Prophiler\Toolbar\Formatter\BenchmarkFormatter;
                     <span class="label color-3"><i class="fa fa-tasks"></i> <?php echo BenchmarkFormatter::formatMemoryUsage(memory_get_peak_usage()) ?></span>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" onclick="return $('#prophiler-benchmarks').slideToggle('fast');"><span class="label color-5"><i class="fa fa-tachometer"></i> Timeline</span></a>
+                    <a href="javascript:void(0);" onclick="return slideToggle('#prophiler-benchmarks', 'fast');"><span class="label color-5"><i class="fa fa-tachometer"></i> Timeline</span></a>
                 </li>
 
                 <?php foreach ($aggregators as $aggregator): ?>
@@ -85,6 +85,19 @@ use Fabfuel\Prophiler\Toolbar\Formatter\BenchmarkFormatter;
     if (!window.jQuery) {
         document.write('<script src="//code.jquery.com/jquery-2.1.1.min.js"><\/script>');
     }
+
+    function slideToggle(selector, speed) {
+        var benchmarks = $('.benchmarks').is(':visible');
+        var datacollector = $('.datacollector').is(':visible');
+        var logs = $('.logs').is(':visible');
+
+        benchmarks.hide();
+        datacollector.hide();
+        logs.hide();
+
+        return $(selector).slideToggle(speed);
+    }
+
     window.addEventListener("load", function () {
         $('json').each(function (index, el) {
             el.innerHTML = JSON.stringify(JSON.parse(el.innerHTML), null, '    ');
